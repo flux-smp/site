@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FluxSMP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f1117;
+      color: #f0ede8;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid #2a2d38;
+      background: #0f1117;
+    }
+
+    .nav-logo-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f0ede8;
+    }
+    .nav-logo img { height: 32px; width: auto; }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: .875rem; color: #888; }
+    .nav-links a:hover { color: #f0ede8; }
+
+    .nav-join {
+      font-size: .8rem;
+      font-weight: 500;
+      background: #4f6ef7;
+      color: #fff;
+      padding: .5rem 1.2rem;
+      border-radius: 4px;
+    }
+    .nav-join:hover { background: #3a58e0; }
+
+    /* HERO */
+    .hero { border-bottom: 1px solid #2a2d38; }
+    .hero-img {
+      width: 100%; height: 420px; object-fit: cover; display: block;
+    }
+    .hero-img-placeholder {
+      width: 100%; height: 420px;
+      background: #1a1d27;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .8rem; color: #444;
+    }
+    .hero-text {
+      padding: 3rem 2rem;
+      max-width: 680px;
+    }
+    .hero-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .75rem;
+      color: #4f6ef7;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: .8rem;
+    }
+    .hero-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      font-weight: 600;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      color: #f0ede8;
+    }
+    .hero-title span { color: #4f6ef7; }
+    .hero-desc {
+      font-size: 1rem;
+      color: #888;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .hero-actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+    .btn { font-size: .85rem; font-weight: 500; padding: .6rem 1.4rem; border-radius: 4px; display: inline-block; }
+    .btn-blue { background: #4f6ef7; color: #fff; }
+    .btn-blue:hover { background: #3a58e0; }
+    .btn-outline { border: 1px solid #2a2d38; color: #aaa; }
+    .btn-outline:hover { border-color: #555; color: #f0ede8; }
+
+    /* IP BAR */
+    .ip-bar {
+      background: #4f6ef7;
+      padding: 1.4rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .ip-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72rem;
+      color: rgba(255,255,255,.6);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .ip-addr {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .copy-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .75rem;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      padding: .35rem .9rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.25); }
+
+    /* SECTIONS */
+    .page { max-width: 1100px; margin-inline: auto; padding: 0 2rem; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      padding: 5rem 0;
+      border-bottom: 1px solid #2a2d38;
+    }
+    @media (max-width: 640px) {
+      .two-col { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 0; }
+    }
+
+    .col-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #4f6ef7;
+      margin-bottom: .7rem;
+    }
+    .col-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      color: #f0ede8;
+    }
+    .col-body { font-size: .925rem; color: #888; line-height: 1.75; }
+    .col-body p + p { margin-top: .8rem; }
+
+    /* SEASON CARD */
+    .season-card {
+      border: 1px solid #2a2d38;
+      border-radius: 6px;
+      padding: 1.8rem;
+      background: #161923;
+    }
+    .season-card h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .875rem;
+      font-weight: 600;
+      margin-bottom: .4rem;
+      color: #f0ede8;
+    }
+    .season-card p { font-size: .85rem; color: #777; line-height: 1.7; margin-bottom: 1.2rem; }
+
+    .badge {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      padding: .25rem .7rem;
+      border-radius: 3px;
+      border: 1px solid #2a2d38;
+      color: #888;
+      margin-right: .4rem;
+      margin-bottom: .4rem;
+    }
+    .badge.live { background: #4f6ef7; color: #fff; border-color: #4f6ef7; }
+    .badge.season { background: #1e2235; color: #4f6ef7; border-color: #2a3260; }
+
+    /* FEATURES */
+    .features { padding: 5rem 0; border-bottom: 1px solid #2a2d38; }
+    .features-header { margin-bottom: 2.5rem; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid #2a2d38;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #161923;
+    }
+    @media (max-width: 700px) { .features-grid { grid-template-columns: 1fr; } }
+
+    .feat {
+      padding: 1.8rem;
+      border-right: 1px solid #2a2d38;
+      border-bottom: 1px solid #2a2d38;
+    }
+    .feat:nth-child(3n) { border-right: none; }
+    .feat:nth-last-child(-n+3) { border-bottom: none; }
+    @media (max-width: 700px) {
+      .feat { border-right: none; }
+      .feat:last-child { border-bottom: none; }
+      .feat:nth-last-child(-n+3) { border-bottom: 1px solid #2a2d38; }
+    }
+
+    .feat-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .875rem;
+      font-weight: 600;
+      margin-bottom: .5rem;
+      color: #f0ede8;
+    }
+    .feat-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .7rem;
+      color: #4f6ef7;
+      margin-bottom: .7rem;
+    }
+    .feat-body { font-size: .83rem; color: #666; line-height: 1.65; }
+
+    /* FOOTER */
+    footer {
+      padding: 2.5rem 2rem;
+      border-top: 1px solid #2a2d38;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: .8rem; color: #555;
+    }
+    .footer-name {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      color: #f0ede8;
+    }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { color: #555; }
+    .footer-links a:hover { color: #f0ede8; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="FluxSMP"
+      onerror="this.outerHTML='<span class=\'nav-logo-text\'>FluxSMP</span>'" />
+  </div>
+  <ul class="nav-links">
+    <li><a href="#season">Season</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#join">Join</a></li>
+  </ul>
+  <a href="#join" class="nav-join">Play Now</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="Bg.png" alt="FluxSMP" class="hero-img"
+    onerror="this.outerHTML='<div class=\'hero-img-placeholder\'>Bg.png</div>'" />
+  <div class="hero-text">
+    <p class="hero-eyebrow">Season 1 — Live Now</p>
+    <h1 class="hero-title">Flux<span>SMP</span></h1>
+    <p class="hero-desc">A survival multiplayer server with a twist. Season 1 runs the StrengthSMP gamemode — grow powerful through play.</p>
+    <div class="hero-actions">
+      <a href="#join" class="btn btn-blue">Join the Server</a>
+      <a href="#season" class="btn btn-outline">Season Info</a>
+    </div>
+  </div>
+</div>
+
+<!-- IP BAR -->
+<div class="ip-bar" id="join">
+  <div>
+    <div class="ip-label">Server Address</div>
+    <div class="ip-addr">play.fluxsmp.net</div>
+  </div>
+  <button class="copy-btn" onclick="copyIP()">Copy IP</button>
+</div>
+
+<!-- SEASON -->
+<div class="page">
+  <div class="two-col" id="season">
+    <div>
+      <p class="col-label">Current Season</p>
+      <h2 class="col-title">Season One —<br>StrengthSMP</h2>
+      <div class="col-body">
+        <p>FluxSMP Season 1 introduces the StrengthSMP twist. Everything you do in the world makes you stronger — mine more, fight more, explore more.</p>
+        <p>Power tiers unlock as you play. No two players will follow the same path. Build your base, form alliances, and rise to the top before the season ends.</p>
+      </div>
+    </div>
+    <div class="season-card">
+      <div style="margin-bottom:1.2rem;">
+        <span class="badge live">Live</span>
+        <span class="badge season">Season 1</span>
+        <span class="badge">StrengthSMP</span>
+      </div>
+      <h3>What is StrengthSMP?</h3>
+      <p>A custom gameplay layer that tracks your activity and scales your character's strength over time. The more you play, the stronger you get.</p>
+      <h3>How do I join?</h3>
+      <p>Copy the IP above and paste it into Minecraft multiplayer. New players can join any time during the season.</p>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features" id="features">
+    <div class="features-header">
+      <p class="col-label">Features</p>
+      <h2 class="col-title">What's on the server</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feat">
+        <div class="feat-num">01</div>
+        <div class="feat-title">Strength System</div>
+        <div class="feat-body">Custom plugin that scales your power based on time played and actions taken.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-num">02</div>
+        <div class="feat-title">Persistent World</div>
+        <div class="feat-body">The map stays up for the full season. Your builds and progress aren't wiped mid-run.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-num">03</div>
+        <div class="feat-title">Season Twists</div>
+        <div class="feat-body">Every season has a different gamemode. StrengthSMP is just the beginning.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-num">04</div>
+        <div class="feat-title">Active Moderation</div>
+        <div class="feat-body">Staff online daily. Griefers and cheaters get removed fast.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-num">05</div>
+        <div class="feat-title">Community Events</div>
+        <div class="feat-body">Tournaments, build comps, and community votes throughout the season.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-num">06</div>
+        <div class="feat-title">Custom Plugins</div>
+        <div class="feat-body">Built from scratch for FluxSMP. Purpose-built, nothing generic.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">FluxSMP</span>
+  <ul class="footer-links">
+    <li><a href="#">Discord</a></li>
+    <li><a href="#">Rules</a></li>
+    <li><a href="#">Apply</a></li>
+  </ul>
+  <span>Not affiliated with Mojang.</span>
+</footer>
+
+<script>
+  function copyIP() {
+    navigator.clipboard.writeText('play.fluxsmp.net').then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied';
+      setTimeout(() => btn.textContent = 'Copy IP', 2000);
+    });
+  }
+</script>
+</body>
+</html>
