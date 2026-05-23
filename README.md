@@ -1,2 +1,2 @@
-# site
-Main Site for FluxSMP!
+# ReadME FluxSMP
+This is the github org for the Discord / Minecraft server FluxSMP!
